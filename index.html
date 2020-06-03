@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospitals</title>
+    <link rel="stylesheet" href="./static/style.css">
+    <link rel="stylesheet" href="./static/leaflet.css">
+</head>
+
+<body>
+    <div>
+        <h1 class="ak-title">Check hospital status around me</h1>
+        <label class="switch">
+            <input id="view-selector" type="checkbox">
+            <span class="slider round"></span>
+        </label>
+    </div>
+
+    <div id="map-view">
+        <h2>Map View</h2>
+        <div id="mapid"></div>
+    </div>
+
+    <div id="table-view">
+        <h2>Table View</h2>
+        <table class="selectors">
+            <tr>
+                <td>State</td>
+                <td>
+                    <select>
+                        <option>Select</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>District</td>
+                <td>
+                    <select>
+                        <option>Select</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Assets</td>
+                <td>
+                    <select>
+                        <option>Select</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        
+        <table class="results">
+            <tr>
+                <td>Hospital</td>
+                <td>Total</td>
+                <td>Occupied</td>
+                <td>Free</td>
+                <td>Updated On</td>
+            </tr>
+            <tr>
+                <td>Govt Hospital</td>
+                <td>50</td>
+                <td>34</td>
+                <td>16</td>
+                <td>03 Jun 20 08:15 AM</td>
+            </tr>
+            <tr>
+                <td>Govt Hospital</td>
+                <td>50</td>
+                <td>34</td>
+                <td>16</td>
+                <td>03 Jun 20 08:15 AM</td>
+            </tr>
+            <tr>
+                <td>Govt Hospital</td>
+                <td>50</td>
+                <td>34</td>
+                <td>16</td>
+                <td>03 Jun 20 08:15 AM</td>
+            </tr>
+            <tr>
+                <td>Govt Hospital</td>
+                <td>50</td>
+                <td>34</td>
+                <td>16</td>
+                <td>03 Jun 20 08:15 AM</td>
+            </tr>
+            <tr>
+                <td>Govt Hospital</td>
+                <td>50</td>
+                <td>34</td>
+                <td>16</td>
+                <td>03 Jun 20 08:15 AM</td>
+            </tr>
+        </table>
+    </div>
+    <script src="./static/jquery-3.5.1.min.js"></script>
+    <script src="./static/leaflet.js"></script>
+
+    <script>
+        $(function () {
+            console.log($("#view-selector").is(":checked"))
+            $("#view-selector").change(function () {
+                if (this.checked) {
+                    // show map view
+                    document.getElementById("map-view").style.display = "none";
+                    document.getElementById("table-view").style.display = "block";
+                } else {
+                    // show table view
+                    document.getElementById("table-view").style.display = "none";
+                    document.getElementById("map-view").style.display = "block";
+                }
+            });
+        })
+    </script>
+
+    <script>
+        let geojson;
+
+        var map = L.map('mapid').setView([23.803594, 79.657438], 4);
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+
+        }).addTo(map);
+        $.get('./static/india.json', function (res) {
+
+            if (geojson) geojson.clearLayers();
+
+            geojson = L.geoJson(res, { style: { weight: 1, opacity: 1, color: '#888', dashArray: '1', fillOpacity: 0, fillColor: '#fff' }, onEachFeature: function () { } }).addTo(map);
+        });
+    </script>
+</body>
+
+</html>
